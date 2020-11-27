@@ -1,4 +1,15 @@
-class TestModel:
+from sql_alchemy import db
+
+class TestModel(db):
+    __tablename__ = 'test'
+
+    id = db.Column(db.Integer, primary_key=True)
+    duration = db.Column(db.Integer)
+    fhr_valeu = db.Column(db.Integer)
+    token = db.Column(db.String(100))
+    date_created = db.Column(db.String(22))
+    device_id = db.Column(db.Integer)
+
     def __init__(self, id, duration, fhr_valeu, token, date_created, device_id):
         self.id = id
         self.duration = duration
