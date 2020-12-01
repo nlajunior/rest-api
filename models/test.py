@@ -1,6 +1,6 @@
 from sql_alchemy import db
 
-class TestModel(db):
+class TestModel(db.Model):
     __tablename__ = 'test'
 
     id = db.Column(db.Integer, primary_key=True)
@@ -27,3 +27,22 @@ class TestModel(db):
             'date_created': self.date_created,
             'device_id': self.device_id
         }
+
+    @classmethod
+    def find_test(cls, id):
+        test = cls.query.filter_by(id=id).first()
+        if test:
+            return test
+        return None
+    
+    def save_test(self):
+        db.session.add(self)
+        db.session.commit()
+
+    def update_test(self, duration, fhr_valeu, token, date_created, device_id):
+        self.duration = duration
+        self.fhr_valeu = fhr_valeu
+        self.token = token
+        self.date_created =  date_created
+        self.device_id = device_id
+

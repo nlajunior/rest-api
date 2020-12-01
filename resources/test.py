@@ -33,40 +33,37 @@ class Test(Resource):
     argumentos.add_argument('date_created')
     argumentos.add_argument('device_id')
    
-    def find_test(id):
-        for test in tests:
-            if test['id']==id:
-                return test
-        return None
-    
     def get(self, id):
-        test = Test.find_test(id)
+        test = TestModel.find_test(id)
         if test:
-            return test
+            return test.json()
         return {'message': 'Test not found'}, 404
 
     def  post(self, id):
+        if TestModel.find_test(id):
+            return {"message": "Test id '{}' already exists.".format(id)}, 400
+        
         data = Test.argumentos.parse_args()
-        test_object = TestModel(id, **data)
-        new_test = test_object.json()
+        test = TestModel(id, **data)
+        #new_test = test_object.json()
         #novo_test = { 'id':id, **data }
-  
-        tests.append(new_test)
-        return new_test, 200
+        #tests.append(new_test)
+        test.save_test()
+
+        return test.json(), 200
     
     def put(self, id):
         data = Test.argumentos.parse_args()
-        test_object = TestModel(id, **data)
-        new_test = test_object.json()
-        #novo_test = { 'id':id, **data }
+                
+        test_find = TestModel.find_test(id)
+        if test_find:
+            test_find.update_test(**data)
+            test_find.save_test()
+            return test_find.json(), 200
 
-        test = Test.find_test(id)
-        if test:
-            test.update(new_test)
-            return new_test, 200
-
-        tests.append(new_test)
-        return new_test, 201
+        test = TestModel(id, **data)
+        test.save_test()
+        return test, 201
 
     def delete(self, id):
         global tests

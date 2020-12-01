@@ -1,0 +1,7 @@
+# ambiente
+
+alias python=python3.7
+
+pip install virtualenv
+
+virtualenv ambvir --python=python3.7
