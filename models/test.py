@@ -45,4 +45,8 @@ class TestModel(db.Model):
         self.token = token
         self.date_created =  date_created
         self.device_id = device_id
+    
+    def delete_test(self):
+        db.session.delete(self)
+        db.session.commit()
 
