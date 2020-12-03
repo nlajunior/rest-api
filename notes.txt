@@ -5,3 +5,35 @@ alias python=python3.7
 pip install virtualenv
 
 virtualenv ambvir --python=python3.7
+
+Postgresql
+
+apt install postgresql postgresql-contrib
+
+sudo -i -u postgres
+
+psql
+\conninfo
+\q
+
+exit
+
+sudo -u postgress createuser ubuntu
+sudo -u postgress createdb -O ubuntu ubuntu
+psql
+\password ubuntu
+\q
+
+sudo nano /etc/postgresql/10/main/pg_hba.conf
+alterar  peer para md5
+\q
+
+pip install psycopg2-binary
+
+string de conexão 'postgresql://ubuntu:123@localhost:5432/ubuntu'
+
+.bashrc 
+export USERDB="admindba"
+export PASSWORD="123456789"
+export DATABASE="db"
+export JWT_SECRET_KEY="T@uT0m&r1@"

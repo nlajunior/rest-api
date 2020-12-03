@@ -7,12 +7,14 @@ from resources.user import User, UserRegister, UserLogin, UserLogout
 from flask_jwt_extended import JWTManager
 from blacklist import BLACKLIST
 
+from config import *
+
 import mysql.connector
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI']= 'mysql://admindba:123456789@localhost:3306/db'
+app.config['SQLALCHEMY_DATABASE_URI']= f'mysql://{USERDB}:{PASSWORD}@{HOST}:{PORT}/{DATABASE}'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['SECRET_KEY']= 'T@uT0m&r1@'
+app.config['JWT_SECRET_KEY']=JWT_SECRET_KEY
 app.config['JWT_BLACKLIST_ENABLED'] = True
 
 api = Api(app)
