@@ -1,7 +1,9 @@
 from flask_restful import Resource, reqparse
 from models.test import TestModel
 from flask_jwt_extended import jwt_required
+#from filtros import *
 import mysql.connector
+import sqlite3
 
 path_params = reqparse.RequestParser()
 path_params.add_argument('token', type=str)
@@ -12,18 +14,15 @@ path_params.add_argument('offset', type=float)
 
 class Tests(Resource):
     def get(self):
-        data = path_params.parse_args()
-        data_valid = {}
-        
         return {'tests':[test.json() for test in TestModel.query.all()]}
 
 class Test(Resource):
     argumentos = reqparse.RequestParser()
     argumentos.add_argument('duration')
     argumentos.add_argument('fhr_valeu')
-    argumentos.add_argument('token', type=str, required=True, help="This field 'token' cannot be left ")
+    argumentos.add_argument('token', type=str, required=True, help="This field 'token' cannot be left.")
     argumentos.add_argument('date_created')
-    argumentos.add_argument('device_id')
+    argumentos.add_argument('device_id', type=int, required=True, help="Every test to be linked with a device.")
    
     def get(self, id):
         test = TestModel.find_test(id)
@@ -38,6 +37,9 @@ class Test(Resource):
         
         data = Test.argumentos.parse_args()
         test = TestModel(id, **data)
+
+        if not DeviceModel.find_by_id(data.get('device_id')):
+            return {'message': 'Device id invalid.'}, 400
         try:
             test.save_test()
         except:
@@ -64,7 +66,7 @@ class Test(Resource):
         return test, 201
 
     @jwt_required
-    def delete(self, id):
+    def delete(self, id):  
         test = TestModel.find_test(id)
         if test:
             try:

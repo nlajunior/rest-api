@@ -1,4 +1,6 @@
 from sql_alchemy import db
+from datetime import date
+
 
 class TestModel(db.Model):
     __tablename__ = 'test'
@@ -8,7 +10,8 @@ class TestModel(db.Model):
     fhr_valeu = db.Column(db.Integer)
     token = db.Column(db.String(100))
     date_created = db.Column(db.DateTime(6))
-    device_id = db.Column(db.Integer)
+    device_id = db.Column(db.Integer, db.ForeignKey('device.id'))
+    #device = bd.relationship('DeviceModel')
 
     def __init__(self, id, duration, fhr_valeu, token, date_created, device_id):
         self.id = id
@@ -24,7 +27,7 @@ class TestModel(db.Model):
             'duration': self.duration,
             'fhr_valeu': self.fhr_valeu,
             'token': self.token,
-            'date_created': str(self.date_created),
+            'date_created': (self.date_created.strftime('%d/%m/%Y')),
             'device_id': self.device_id
         }
 
@@ -39,14 +42,14 @@ class TestModel(db.Model):
         db.session.add(self)
         db.session.commit()
 
-    def update_test(self, duration, fhr_valeu, token, date_created, device_id):
+    def update_test(self, duration, fhr_valeu, token, date_created):
         self.duration = duration
         self.fhr_valeu = fhr_valeu
         self.token = token
         self.date_created =  date_created
-        self.device_id = device_id
+        
     
-    def delete_test(self):
+    def delete(self):
         db.session.delete(self)
         db.session.commit()
 

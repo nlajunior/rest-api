@@ -1,9 +1,12 @@
 from flask import Flask, jsonify
+
 from flask_restful import Api
 
 from resources.test import Tests
 from resources.test import Test
-from resources.user import User, UserRegister, UserLogin, UserLogout
+from resources.device import Device, Devices
+
+from resources.user import User, UserRegister, UserLogin, UserLogout, UserConfirm
 from flask_jwt_extended import JWTManager
 from blacklist import BLACKLIST
 
@@ -38,6 +41,9 @@ api.add_resource(User, '/users/<int:id>')
 api.add_resource(UserRegister, '/new')
 api.add_resource(UserLogin, '/login')
 api.add_resource(UserLogout, '/logout')
+api.add_resource(Devices, '/devices')
+api.add_resource(Device, '/devices/<string:mac>')
+api.add_resource(UserConfirm, '/confirmacao/<int:id>')
 
 if __name__=='__main__':
     from sql_alchemy import db
