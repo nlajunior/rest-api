@@ -1,4 +1,5 @@
 from sql_alchemy import db
+from datetime import date
 
 
 class DeviceModel(db.Model):
@@ -7,25 +8,23 @@ class DeviceModel(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     mac = db.Column(db.String(100))
     date_created = db.Column(db.DateTime(6))
-    status = db.Column(db.String(2))
+    status = db.Column(db.String(3))
     tests = db.relationship('TestModel') #lista de objetos tests
 
-    def __init__(self, mac, date_created, status):
+    def __init__(self, mac, status):
         self.mac = mac
-        self.date_created = date_created
+        self.date_created = date.today()
         self.status = status
     
     def json(self):
         return {
             'id': self.id,
             'mac': self.mac,
-            #'date_created': str(self.date_created),
-            #'status': self.status,
             'tests':[test.json() for test in self.tests]
         }
     
     @classmethod
-    def find_device(cls, mac):
+    def find_by_mac(cls, mac):
         device =  cls.query.filter_by(mac=mac).first()
         if device:
             return device
@@ -45,18 +44,14 @@ class DeviceModel(db.Model):
             return device
         return None
     
-    def save_device(self):
+    def save(self):
         db.session.add(self)
         db.session.commit()
 
-    def update_device(self, mac, status):
-        self.duration = duration
-        self.fhr_valeu = fhr_valeu
-        self.token = token
-        self.date_created =  date_created
-        self.device_id = device_id
-    
-    def delete_device(self):
+    def update(self, status):
+        self.status = status  
+        
+    def delete(self):
         [test.delete() for test in self.tests]
         db.session.delete(self)
         db.session.commit()

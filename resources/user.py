@@ -66,7 +66,8 @@ class UserLogin(Resource):
         
         if user and safe_str_cmp(user.password, data['password']):
             if user.actived:
-                token = create_access_token(identity=user.id)
+                #expires = datetime.timedelta(days=365)
+                token = create_access_token(identity=user.id, expires_delta=False)
                 return {'token':token}, 200
             return {'message': 'User not confirmed.'}, 400
         return {'message': 'User unauthorized'}, 401

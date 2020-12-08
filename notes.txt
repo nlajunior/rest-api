@@ -146,3 +146,8 @@ class Test(Resource):
             return {'message': 'Test deleted.'}
 
         return {'message': 'Test not deleted'}, 404
+
+
+
+
+pip install --upgrade google-api-python-client google-auth-httplib2 google-auth-oauthlib
