@@ -6,7 +6,7 @@ class DeviceModel(db.Model):
     __tablename__ = 'device'
 
     id = db.Column(db.Integer, primary_key=True)
-    mac = db.Column(db.String(100))
+    mac = db.Column(db.String(100), unique=True)
     date_created = db.Column(db.DateTime(6))
     status = db.Column(db.String(3))
     tests = db.relationship('TestModel') #lista de objetos tests

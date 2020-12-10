@@ -15,9 +15,13 @@ path_params.add_argument('offset', type=float)
 
 #Ok
 class Tests(Resource):
+    @jwt_required
     def get(self):
-        return {'tests':[test.json() for test in TestModel.find_by_date(date.today())]} 
-     
+        try:
+            return {'tests':[test.json() for test in TestModel.find_by_date(date.today())]} 
+        except:
+            return {'message': 'Tests not found'}, 404
+   
 
 class Test(Resource):
     argumentos = reqparse.RequestParser()
@@ -26,8 +30,7 @@ class Test(Resource):
     argumentos.add_argument('session_id', type=str, required=True, help="This field 'token' cannot be left.")
     argumentos.add_argument('date_created')
     argumentos.add_argument('device_id', type=int, required=True, help="Every test to be linked with a device.")
-    
-   
+       
     def get(self, id):
         test = TestModel.find_by_id(id)
         if test:
