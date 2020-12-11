@@ -44,8 +44,10 @@ api.add_resource(User, '/users/<int:id>')
 api.add_resource(UserRegister, '/new')
 api.add_resource(UserLogin, '/login')
 api.add_resource(UserLogout, '/logout')
+
 api.add_resource(Devices, '/devices')
-api.add_resource(Device, '/devices/')
+api.add_resource(Device, '/device/<string:mac>')
+
 api.add_resource(UserConfirm, '/confirmacao/<int:id>')
 
 if __name__=='__main__':

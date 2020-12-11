@@ -6,7 +6,6 @@ from werkzeug.security import safe_str_cmp
 from blacklist import BLACKLIST
 import traceback
 
-
 argumentos = reqparse.RequestParser()
 argumentos.add_argument('login')
 argumentos.add_argument('password')
