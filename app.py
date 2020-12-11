@@ -4,6 +4,7 @@ from flask_restful import Api
 
 from resources.test import Tests
 from resources.test import Test
+from resources.test import TestsSession
 from resources.device import Device, Devices
 
 from resources.user import User, UserRegister, UserLogin, UserLogout, UserConfirm
@@ -37,6 +38,7 @@ def token_invalid():
 
 api.add_resource(Tests, '/tests')
 api.add_resource(Test, '/test')
+api.add_resource(TestsSession, '/tests/<string:session_id>')
 
 api.add_resource(User, '/users/<int:id>')
 api.add_resource(UserRegister, '/new')

@@ -48,6 +48,13 @@ class TestModel(db.Model):
             return test
         return None
     
+    @classmethod
+    def find_by_session(cls, session_id):
+        test = cls.query.filter_by(session_id=session_id).all()
+        if test:
+            return test
+        return None
+    
     def save(self):
         db.session.add(self)
         db.session.commit()

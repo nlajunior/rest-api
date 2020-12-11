@@ -37,6 +37,15 @@ class Test(Resource):
             return test.json()
         return {'message': 'Test not found'}, 404
 
+class TestsSession(Resource):
+
+    def get(self, session_id):
+        try:
+            return {'tests':[test.json() for test in TestModel.find_by_session(session_id)]} 
+        except:
+            return {'message': 'Tests not found'}, 404
+
+
     @jwt_required
     def  post(self):
         #if TestModel.find_test(id):
@@ -83,3 +92,5 @@ class Test(Resource):
             return {'message': 'Test deleted.'}
 
         return {'message': 'Test not deleted'}, 404
+
+
