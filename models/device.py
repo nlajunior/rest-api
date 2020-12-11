@@ -13,13 +13,14 @@ class DeviceModel(db.Model):
 
     def __init__(self, mac, status):
         self.mac = mac
-        self.date_created = date.today()
+        #self.date_created = date.today()
         self.status = status
     
     def json(self):
         return {
             'id': self.id,
             'mac': self.mac,
+            'status':self.status,
             'tests':[test.json() for test in self.tests]
         }
     

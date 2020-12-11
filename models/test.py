@@ -8,7 +8,7 @@ class TestModel(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     duration = db.Column(db.Integer)
     fhr_value = db.Column(db.Float)
-    session_id = db.Column(db.String(20))
+    session_id = db.Column(db.String(100))
     date_created = db.Column(db.DateTime(6))
     device_id = db.Column(db.Integer, db.ForeignKey('device.id'))
     #device = bd.relationship('DeviceModel')

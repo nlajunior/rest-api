@@ -15,7 +15,7 @@ path_params.add_argument('offset', type=float)
 
 #Ok
 class Tests(Resource):
-    @jwt_required
+    #@jwt_required
     def get(self):
         try:
             return {'tests':[test.json() for test in TestModel.find_by_date(date.today())]} 
@@ -46,7 +46,7 @@ class TestsSession(Resource):
             return {'message': 'Tests not found'}, 404
 
 
-    @jwt_required
+    #@jwt_required
     def  post(self):
         #if TestModel.find_test(id):
          #   return {"message": "Test id '{}' already exists.".format(id)}, 400
