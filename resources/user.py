@@ -80,6 +80,7 @@ class UserLogout(Resource):
 
 class UserConfirm(Resource):
     #raiz_do_site/confirmacao/{id}
+    
     @classmethod
     def get(cls, id):
         user = UserModel.find_user(id)

@@ -6,6 +6,8 @@ pip install virtualenv
 
 virtualenv ambvir --python=python3.7
 
+source db.sql executa o script
+
 Postgresql
 
 apt install postgresql postgresql-contrib

@@ -53,10 +53,8 @@ INSERT INTO device (mac, status) VALUES ('80:7D:3A:DA:D9:F4','ON'),
 ('84:0D:8E:17:4D:C8','ON'),
 ('8C:AA:B5:85:EE:14','ON')
 ;
-select * from user;
-select * from test
 
-upate user set actived=0 where id=1
-
+create user 'userapi'@'localhost' identified by 'S3n@1IstH@pV1d@';
+grant all on db.* to 'userapi'@'localhost'
 
 
