@@ -2,12 +2,14 @@ from flask_restful import Resource, reqparse
 from models.test import TestModel
 from models.device import DeviceModel
 from flask_jwt_extended import jwt_required
-#from filtros import *
+from resources.filters import *
+from config import *
+
 import mysql.connector
 from datetime import date
 
 path_params = reqparse.RequestParser()
-path_params.add_argument('session_id', type=str)
+#path_params.add_argument('session_id', type=str)
 path_params.add_argument('fhr_value_min', type=float)
 path_params.add_argument('fhr_value_max', type=float)
 path_params.add_argument('limit', type=float)
@@ -15,12 +17,48 @@ path_params.add_argument('offset', type=float)
 
 #Ok
 class Tests(Resource):
+    
+
     @jwt_required
     def get(self):
-        try:
-            return {'tests':[test.json() for test in TestModel.find_by_date(date.today())]} 
-        except:
-            return {'message': 'Tests not found'}, 404
+        data = path_params.parse_args()
+        data_valid = {key:data[key] for key in data if data[key] is not None}
+        parameters = normalize_path_params(**data_valid)
+        print(parameters)
+        conn = mysql.connector.connect(user='admindba', password='T@ut0m&r1@', host='localhost', database='db')
+        cursor=conn.cursor()
+
+        #cursor.execute(query_test)
+        #result = cursor.fetchall()
+
+        tupla = tuple([parameters[chave] for chave in parameters])
+        print(tupla)
+        cursor.execute(query_test, tupla)
+        result = cursor.fetchall()
+        
+
+        tests_result=[]
+
+        if result:
+           for linha in result:
+                tests_result.append({
+                    'id': linha[0],
+                    'duration': linha[1],
+                    'fhr_value': linha[2],
+                    'session_id': linha[3],
+                    'date_created':linha[4] ,
+                    'device_id': linha[5]
+                })
+
+        print(tests_result)
+        return {'tests': tests_result}
+
+            
+
+       # try:
+        #    return {'tests':[test.json() for test in TestModel.find_by_date(date.today())]} 
+        #except:
+         #   return {'message': 'Tests not found'}, 404
    
 
 class Test(Resource):
