@@ -1,11 +1,11 @@
-create database db3;
+create database db;
 
-use db3;
+use db;
 
 CREATE TABLE role (
   id int AUTO_INCREMENT,
   name varchar(40) unique NOT NULL,
-  actived tinyint(1) DEFAULT 1,
+  actived boolean DEFAULT 1,
   PRIMARY KEY (id)
  
 );
@@ -17,7 +17,7 @@ CREATE TABLE user (
   organization_key varchar(200) unique NOT NULL,
   email varchar(100),
   role int NOT NULL,
-  actived tinyint(1) DEFAULT 0,
+  actived boolean DEFAULT 0,
   PRIMARY KEY (id), 
   CONSTRAINT user_fk_1 FOREIGN KEY (role) REFERENCES role (id)
 );
@@ -34,7 +34,7 @@ CREATE TABLE monitor(
    id int NOT NULL AUTO_INCREMENT,
    monitor_id varchar(60) not null unique,
    date_created datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-   status varchar(50) NOT NULL,
+   status boolean not null default 1,
    device_id varchar(30),
    CONSTRAINT monitor_fk_1 FOREIGN KEY (device_id) REFERENCES device (mac),
    PRIMARY KEY (id)

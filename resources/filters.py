@@ -19,7 +19,7 @@ query_without_token ="SELECT * FROM test \
                 WHERE (fhr_value >=%s AND fhr_value <=%s) \
                 LIMIT %s OFFSET %s"
 
-query_test="SELECT * FROM db.test WHERE fhr_value>=%s AND fhr_value<=%s"
+query_test="SELECT * FROM db.test WHERE fhr_value>=%s AND fhr_value<=%s LIMIT %s OFFSET %s"
 
 query_with_token = "SELECT * FROM test \
                 WHERE session_id=%s AND \
