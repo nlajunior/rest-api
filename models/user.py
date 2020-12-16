@@ -10,7 +10,7 @@ class UserModel(db.Model):
     email = db.Column(db.String(100), nullable=False, unique=True)
     actived = db.Column(db.Boolean, default=False)
 
-    def __init__(self, login, password, organization_key, email,actived):
+    def __init__(self, login, password, organization_key, email, actived):
         self.login = login
         self.password = password
         self.organization_key = organization_key  

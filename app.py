@@ -2,6 +2,7 @@ from flask import Flask, jsonify
 
 from flask_restful import Api
 
+from resources.monitoring import Monitoring
 from resources.test import Tests
 from resources.test import Test
 from resources.test import TestsSession
@@ -36,9 +37,12 @@ def verify_token_blacklist(token):
 def token_invalid():
     return jsonify({'message':'You have been logged out.'}), 401
 
+
+api.add_resource(Monitoring, '/monitor/<string:identifier>')
+
 api.add_resource(Tests, '/tests')
 api.add_resource(Test, '/test')
-api.add_resource(TestsSession, '/tests/<string:session_id>')
+api.add_resource(TestsSession, '/tests/<string:identifier>')
 
 api.add_resource(User, '/users/<int:id>')
 api.add_resource(UserRegister, '/new')

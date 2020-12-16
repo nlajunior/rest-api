@@ -8,20 +8,20 @@ class TestModel(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     duration = db.Column(db.Integer)
     fhr_value = db.Column(db.Float)
-    session_id = db.Column(db.String(100))
     date_created = db.Column(db.DateTime(6))
-    device_id = db.Column(db.Integer, db.ForeignKey('device.id'))
+    identifier = db.Column(db.String(60), db.ForeignKey('monitoring.identifier'))
+    device_id = db.Column(db.String(30), db.ForeignKey('device.mac'))
     #device = bd.relationship('DeviceModel')
 
-    def __init__(self, duration, fhr_value, session_id, date_created, device_id):
+    def __init__(self, duration, fhr_value, date_created, identifier,  device_id):
         
         self.duration = duration
         self.fhr_value = fhr_value
-        self.session_id = session_id
         if date_created==None:
             self.date_created = date.today()
         else:
             self.date_created = date_created
+        self.identifier = identifier
         self.device_id = device_id
     
     def json(self):
@@ -29,8 +29,8 @@ class TestModel(db.Model):
             'id': self.id,
             'duration': self.duration,
             'fhr_value': self.fhr_value,
-            'session_id': self.session_id,
             'date_created': (self.date_created.strftime('%d/%m/%Y')),
+            'monitor_id': self.identifier,            
             'device_id': self.device_id
         }
 
@@ -49,8 +49,8 @@ class TestModel(db.Model):
         return None
     
     @classmethod
-    def find_by_session(cls, session_id):
-        test = cls.query.filter_by(session_id=session_id).all()
+    def find_by_identifier(cls, identifier):
+        test = cls.query.filter_by(identifier=identifier).all()
         if test:
             return test
         return None
@@ -59,11 +59,13 @@ class TestModel(db.Model):
         db.session.add(self)
         db.session.commit()
 
-    def update(self, duration, fhr_value, session_id, date_created):
+    def update(self, duration, fhr_value, date_created, identifier, device_id):
         self.duration = duration
         self.fhr_valeu = fhr_value
-        self.session_id = session_id
         self.date_created =  date_created
+        self.identifier = identifier
+        self.device_id = device_id
+        
         
     def delete(self):
         db.session.delete(self)
