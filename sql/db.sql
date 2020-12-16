@@ -10,6 +10,14 @@ CREATE TABLE role (
  
 );
 
+CREATE TABLE log_error (
+  id int AUTO_INCREMENT,
+  device_id varchar(30),
+  date_created datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  level_error int,
+  PRIMARY KEY(id)
+);
+
 CREATE TABLE user (
   id int NOT NULL AUTO_INCREMENT,
   login varchar(40) unique NOT NULL,
@@ -21,6 +29,8 @@ CREATE TABLE user (
   PRIMARY KEY (id), 
   CONSTRAINT user_fk_1 FOREIGN KEY (role) REFERENCES role (id)
 );
+
+
 
 CREATE TABLE device (
   id int NOT NULL AUTO_INCREMENT,
@@ -62,3 +72,19 @@ INSERT INTO device (mac) VALUES ('80:7D:3A:DA:D9:F4'),
 ('84:0D:8E:17:4D:C8'),
 ('8C:AA:B5:85:EE:14')
 ;
+
+insert into monitoring (identifier, device_id) values('80:7D:3A:DA:D9:F5:1','80:7D:3A:DA:D9:F5');
+insert into test (duration, fhr_value, date_created, identifier, device_id) values(5, 120, '2020-12-15', '80:7D:3A:DA:D9:F5:1', '80:7D:3A:DA:D9:F5');
+insert into test (duration, fhr_value, date_created, identifier, device_id) values(10, 126, '2020-12-15', '80:7D:3A:DA:D9:F5:1', '80:7D:3A:DA:D9:F5')
+
+insert into monitoring (identifier, device_id) values('80:7D:3A:DA:D9:F4:1','80:7D:3A:DA:D9:F4');
+insert into test (duration, fhr_value, identifier, device_id) values(5, 120, '80:7D:3A:DA:D9:F4:1', '80:7D:3A:DA:D9:F4');
+
+select * from role;
+select * from user;
+select * from device;
+select * from monitoring;
+select * from test;
+
+SELECT * FROM test where DATE_FORMAT(date_created, '%Y-%m-%d')='2020-12-15' ORDER BY DATE_FORMAT(date_created, '%Y%m%d') DESC LIMIT 14;
+

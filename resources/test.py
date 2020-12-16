@@ -9,7 +9,7 @@ import mysql.connector
 from datetime import date
 
 path_params = reqparse.RequestParser()
-
+path_params.add_argument('date_created', type=str)
 path_params.add_argument('fhr_value_min', type=float)
 path_params.add_argument('fhr_value_max', type=float)
 path_params.add_argument('limit', type=int)
