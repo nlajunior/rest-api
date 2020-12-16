@@ -18,7 +18,8 @@ path_params.add_argument('offset', type=int)
 #Ok
 class Tests(Resource):
     
-    #@jwt_required
+
+    @jwt_required
     def get(self):
         data = path_params.parse_args()
         data_valid = {key:data[key] for key in data if data[key] is not None}
