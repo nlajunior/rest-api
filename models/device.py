@@ -6,10 +6,11 @@ class DeviceModel(db.Model):
     __tablename__ = 'device'
 
     id = db.Column(db.Integer, primary_key=True)
-    mac = db.Column(db.String(100), unique=True)
+    mac = db.Column(db.String(30), unique=True)
     date_created = db.Column(db.DateTime(6))
     status = db.Column(db.String(3))
-    tests = db.relationship('TestModel') #lista de objetos tests
+    #tests = db.relationship('TestModel') #lista de objetos tests
+    #monitoring = db.relationship('MonitoringModel')
 
     def __init__(self, mac, status):
         self.mac = mac
@@ -20,8 +21,8 @@ class DeviceModel(db.Model):
         return {
             'id': self.id,
             'mac': self.mac,
-            'status':self.status,
-            'tests':[test.json() for test in self.tests]
+            'status':self.status #,
+            #'tests':[test.json() for test in self.tests]
         }
     
     @classmethod
