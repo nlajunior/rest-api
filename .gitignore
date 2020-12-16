@@ -1,1 +1,3 @@
 ./venv
+cria_banco.py
+credentials.json
