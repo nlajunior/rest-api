@@ -20,7 +20,7 @@ class MonitoringModel(db.Model):
     
     def json(self):
         return {
-            #'id': self.id,
+            
             'monitor_id': self.identifier,
             'status':self.status,
             'tests':[test.json() for test in self.tests]
@@ -52,8 +52,9 @@ class MonitoringModel(db.Model):
         db.session.add(self)
         db.session.commit()
 
-    def update(self, status):
-        self.status = status  
+    def update(self, status=0):
+        print(status)
+        self.status = status
         
     def delete(self):
         [test.delete() for test in self.tests]

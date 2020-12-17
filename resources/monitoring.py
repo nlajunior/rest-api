@@ -6,8 +6,8 @@ class  Monitoring(Resource):
     arguments = reqparse.RequestParser()
     
     arguments.add_argument('identifier', type=str, required=True, help="This field 'identifier' cannot be left.")
-    arguments.add_argument('status', type=bool, required=True, help="This field 'status' cannot be left.")
-    arguments.add_argument('device_id', type=str, required=True, help="This field 'device_id' cannot be left.")
+    arguments.add_argument('status', type=bool)
+    arguments.add_argument('device_id', type=str)
     
     def get(self, identifier):
 
@@ -20,7 +20,7 @@ class  Monitoring(Resource):
     def post(self):
         data = Monitoring.arguments.parse_args()
         monitoring = MonitoringModel(**data)
-        print(data)
+       
 
         if  monitoring.find_by_identifier(data['identifier']):
             return {"message": "The monitoring already exists."}, 400
@@ -33,6 +33,22 @@ class  Monitoring(Resource):
         return monitoring.json()
 
     def put(self):
-        pass 
+        data = Monitoring.arguments.parse_args() 
+
+        monitoring_find = MonitoringModel.find_by_identifier(data['identifier'])
+        print(data['status'])
+
+        if monitoring_find:
+            monitoring_find.update(False)
+            monitoring_find.save()
+            return monitoring_find.json(), 200
+
+        monitoring = MonitoringModel(**data)
+        try:
+            monitoring.save()
+        except:
+            return {'message': 'An internal error ocurred trying to save monitoring'}, 500
+        return monitoring, 201
+
 
 
