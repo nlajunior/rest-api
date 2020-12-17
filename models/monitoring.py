@@ -7,16 +7,16 @@ class MonitoringModel(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     identifier = db.Column(db.String(60), unique=True)
-    date_created = db.Column(db.DateTime(6))
+    date_created = db.Column(db.DateTime(6), nullable=True)
     status = db.Column(db.Boolean)
     device_id = db.Column(db.String(30))
     tests = db.relationship('TestModel') 
 
     def __init__(self, identifier, status, device_id):
         self.identifier = identifier
-        #self.date_created = date.today()
-        self.status = status,
         self.device_id = device_id
+        self.date_created=date.today()
+        self.status = status
     
     def json(self):
         return {

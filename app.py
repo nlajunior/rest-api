@@ -38,7 +38,7 @@ def token_invalid():
     return jsonify({'message':'You have been logged out.'}), 401
 
 
-api.add_resource(Monitoring, '/monitor/<string:identifier>')
+api.add_resource(Monitoring, '/monitoring')
 
 api.add_resource(Tests, '/tests')
 api.add_resource(Test, '/test')
