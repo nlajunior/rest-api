@@ -9,9 +9,9 @@ import mysql.connector
 from datetime import date
 
 path_params = reqparse.RequestParser()
-path_params.add_argument('date_created', type=str)
-path_params.add_argument('fhr_value_min', type=float)
-path_params.add_argument('fhr_value_max', type=float)
+path_params.add_argument('identifier', type=str)
+path_params.add_argument('duration_min', type=int)
+path_params.add_argument('duration_max', type=int)
 path_params.add_argument('limit', type=int)
 path_params.add_argument('offset', type=int)
 
@@ -29,7 +29,13 @@ class Tests(Resource):
        
         tupla = tuple([parameters[chave] for chave in parameters])
         
-        cursor.execute(query_test, tupla)
+        if not parameters.get('identifier'):
+            tupla = tuple([parameters[chave] for chave in parameters])
+            result = cursor.execute(query_without_identifier, tupla)
+        else:
+            tupla = tuple([parameters[chave] for chave in parameters])
+            result = cursor.execute(query_with_identifier, tupla)
+
         result = cursor.fetchall()
        
         tests_list = []

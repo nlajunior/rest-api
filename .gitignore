@@ -1,3 +1,5 @@
 ./venv
 cria_banco.py
 credentials.json
+./docs
+banco
