@@ -21,7 +21,7 @@ def normalize_path_params(identifier=None, duration_min=0, duration_max=60, limi
 
 
 
-query_with_identifier="SELECT * FROM db.test WHERE IDENTIFIER=%s AND DATE_FORMAT(date_created, '%Y-%m-%d')=%s AND duration>=%s AND duration<=%s LIMIT %s OFFSET %s"
+query_with_identifier="SELECT * FROM db.test WHERE IDENTIFIER=%s AND DATE_FORMAT(date_created, '%Y-%m-%d')=%s AND duration>=%s AND duration<=%s ORDER BY duration LIMIT %s OFFSET %s"
 
-query_without_identifier="SELECT * FROM db.test WHERE DATE_FORMAT(date_created, '%Y-%m-%d')=%s AND duration>=%s AND duration<=%s LIMIT %s OFFSET %s"
+query_without_identifier="SELECT * FROM db.test WHERE DATE_FORMAT(date_created, '%Y-%m-%d')=%s AND duration>=%s AND duration<=%s ORDER BY duration  LIMIT %s OFFSET %s"
 
