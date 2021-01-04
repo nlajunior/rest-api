@@ -50,7 +50,7 @@ api.add_resource(UserLogin, '/login')
 api.add_resource(UserLogout, '/logout')
 
 api.add_resource(Devices, '/devices')
-api.add_resource(Device, '/device/<string:mac>')
+api.add_resource(Device, '/device')
 
 api.add_resource(UserConfirm, '/confirmacao/<int:id>')
 

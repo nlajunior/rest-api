@@ -1,6 +1,6 @@
 from datetime import date
 
-def normalize_path_params(identifier=None, duration_min=0, duration_max=60, limit=50, offset=0, **data):
+def normalize_path_params(identifier=None, duration_min=0, duration_max=360, limit=50, offset=0, **data):
     if not identifier==None:
         return {
             'identifier': identifier,
