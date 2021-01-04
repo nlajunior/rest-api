@@ -37,7 +37,7 @@ class Tests(Resource):
             result = cursor.execute(query_with_identifier, tupla)
 
         result = cursor.fetchall()
-       
+               
         tests_list = []
         if result:
             for linha in result:
@@ -49,6 +49,7 @@ class Tests(Resource):
                     'identifier': linha[4],
                     'device_id': linha[5]
                 })
+            
             return {"tests": tests_list}
         
  
@@ -57,7 +58,7 @@ class Test(Resource):
     arguments_test.add_argument('duration')
     arguments_test.add_argument('fhr_value')
     arguments_test.add_argument('identifier', type=str, required=True, help="This field 'identifier' cannot be left.")
-    arguments_test.add_argument('date_created')
+    arguments_test.add_argument('date_created', type=str)
     arguments_test.add_argument('device_id', type=str, required=True, help="Every test to be linked with a device.")
        
     def get(self, id):

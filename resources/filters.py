@@ -1,10 +1,10 @@
 from datetime import date
 
-def normalize_path_params(identifier=None, duration_min=0, duration_max=360, limit=50, offset=0, **data):
+def normalize_path_params(identifier=None, duration_min=-1, duration_max=400, limit=50, offset=0, **data):
     if not identifier==None:
         return {
             'identifier': identifier,
-            'date_created': date.today(), 
+            'date_created': str(date.today()), 
             'duration_min': duration_min,
             'duration_max': duration_max,
             'limit':limit,
@@ -12,7 +12,7 @@ def normalize_path_params(identifier=None, duration_min=0, duration_max=360, lim
 
         }
     return {
-        'date_created': date.today(), 
+        'date_created': str(date.today()), 
         'duration_min': duration_min,
         'duration_max': duration_max,
         'limit':limit,
