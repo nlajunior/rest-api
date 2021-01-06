@@ -180,3 +180,72 @@ parameters = normalize_path_params(**data_valid)
 
         return {'tests': tests}
     
+
+    [Unit]
+Description=Gunicorn instance to serve app
+After=network.target
+
+[Service]
+User=ubuntu
+Group=www-data
+WorkingDirectory=/home/ubuntu/app
+Environment="PATH=/home/ubuntu/app/venv/bin"
+ExecStart=/home/ubuntu/app/venv/bin/gunicorn --workers 3 --bind 127.0.0.1:8000 app:app
+
+[Install]
+WantedBy=multi-user.target
+
+
+RUN yum update -y
+  7 RUN yum install python3 -y
+  8 RUN yum install python3-pip -y
+  9 RUN yum install python3-devel -y
+ 10 RUN yum install mysql -y
+ 11 RUN yum install mysql-devel -y
+ 12 RUN yum install gcc -y
+
+
+ server {
+    listen 9000;
+    server_name 10.168.165.95;
+        location / {
+        proxy_pass         "http://127.0.0.1:8000";
+        proxy_redirect     off;
+        proxy_set_header   Host $host;
+        proxy_set_header   X-Real-IP $remote_addr;
+    }
+    
+}
+
+setsebool httpd_can_network_connect on -P
+Environment=PATH="/home/suporte/app/venv/bin"
+ExecStart=/home/suporte/app/venv/bin/gunicorn --workers 3 --bind 127.0.0.1:8000 app:app
+
+[Unit]
+Description=Gunicorn instance to serve myproject
+After=network.target
+
+[Service]
+User=root
+Group=wheel
+WorkingDirectory=/home/suporte/app
+Environment="PATH=/home/suporte/app/venv/bin"
+ExecStart=/home/suporte/app/venv/bin/gunicorn --workers 3 --bind 127.0.0.1:8000 -m 007 app:app
+
+[Install]
+WantedBy=multi-user.target
+
+
+[Unit]
+Description=Gunicorn instance
+After=network.target
+
+[Service]
+User=suporte
+Group=suporte
+WorkingDirectory=/home/suporte/app
+Environment="PATH=/home/suporte/app/venv/bin"
+ExecStart=/home/suporte/app/venv/bin/gunicorn --workers 3 --bind 127.0.0.1:8000 -m 007 app:app
+
+[Install]
+WantedBy=multi-user.target
