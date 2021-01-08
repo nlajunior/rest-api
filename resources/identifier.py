@@ -21,7 +21,7 @@ class Identifier(Resource):
         print(dict_last_id)
 
         with open('invalid_id.json', 'w') as json_file:
-            json.dumps(dict_last_id,  indent=4)
+            json.dump(dict_last_id, json_file, indent=4)
                         
         return {
             "id":new_id
