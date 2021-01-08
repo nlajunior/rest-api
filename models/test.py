@@ -66,7 +66,6 @@ class TestModel(db.Model):
         self.identifier = identifier
         self.device_id = device_id
         
-        
     def delete(self):
         db.session.delete(self)
         db.session.commit()

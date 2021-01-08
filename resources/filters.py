@@ -20,7 +20,6 @@ def normalize_path_params(identifier=None, duration_min=-1, duration_max=400, li
         }
 
 
-
 query_with_identifier="SELECT * FROM db.test WHERE IDENTIFIER=%s AND DATE_FORMAT(date_created, '%Y-%m-%d')=%s AND duration>=%s AND duration<=%s ORDER BY duration LIMIT %s OFFSET %s"
 
 query_without_identifier="SELECT * FROM db.test WHERE DATE_FORMAT(date_created, '%Y-%m-%d')=%s AND duration>=%s AND duration<=%s ORDER BY duration  LIMIT %s OFFSET %s"
