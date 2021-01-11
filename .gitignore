@@ -2,7 +2,7 @@
 cria_banco.py
 credentials.json
 ./docs/*
-banco
+banco.db
 aws-nlajunior.pem
 run.py
 passwords.txt

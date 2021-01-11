@@ -1,5 +1,4 @@
 from flask_restful import Resource, reqparse
-#from models.identifier import Identifier
 
 from helper import *
 import json

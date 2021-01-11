@@ -249,3 +249,12 @@ ExecStart=/home/suporte/app/venv/bin/gunicorn --workers 3 --bind 127.0.0.1:8000 
 
 [Install]
 WantedBy=multi-user.target
+
+
+SELECT * FROM db.test WHERE IDENTIFIER='8C:AA:B5:85:EE:14:1' AND DATE_FORMAT(date_created, '%Y-%m-%d')='2021-01-09' AND duration>=0 AND duration<=200 ORDER BY duration 10  OFFSET 2;
+
+explain format=json SELECT t.duration, t.fhr_value, t.identifier FROM db.test as t inner join db.monitoring as m on t.identifier=m.identifier
+WHERE t.IDENTIFIER='80:7D:3A:DA:D9:F5:1' AND DATE_FORMAT(t.date_created, '%Y-%m-%d')='2020-12-15' AND t.duration>=0 AND t.duration<=200 AND m.status=1 \G
+
+ 
+

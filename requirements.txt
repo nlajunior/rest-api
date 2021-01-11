@@ -9,4 +9,5 @@ mysql-connector-python
 flask-mysqldb
 pylint
 gunicorn
+pandas
 
