@@ -7,7 +7,7 @@ class MonitoringModel(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     identifier = db.Column(db.String(60), unique=True)
-    date_created = db.Column(db.DateTime(6), nullable=True)
+    date_created=db.Column(db.DateTime(6),default=db.func.current_timestamp(),nullable=False)
     status = db.Column(db.Boolean)
     device_id = db.Column(db.String(30))
     tests = db.relationship('TestModel') 
@@ -23,7 +23,7 @@ class MonitoringModel(db.Model):
             
             'monitor_id': self.identifier,
             'status':self.status,
-            'tests':[test.json() for test in self.tests]
+            #'tests':[test.json() for test in self.tests]
         }
     
     @classmethod

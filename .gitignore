@@ -1,9 +1,10 @@
 ./venv
 cria_banco.py
 credentials.json
-./docs/*
+./docs
 banco.db
 aws-nlajunior.pem
 run.py
 passwords.txt
 invalid_id.json
+./backup

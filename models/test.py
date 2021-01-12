@@ -8,7 +8,7 @@ class TestModel(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     duration = db.Column(db.Integer)
     fhr_value = db.Column(db.Float)
-    date_created = db.Column(db.DateTime(6))
+    date_created=db.Column(db.DateTime(6),default=db.func.current_timestamp(),nullable=False)
     identifier = db.Column(db.String(60), db.ForeignKey('monitoring.identifier'))
     device_id = db.Column(db.String(30), db.ForeignKey('device.mac'))
     #device = bd.relationship('DeviceModel')

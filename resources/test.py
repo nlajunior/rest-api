@@ -31,10 +31,10 @@ class Tests(Resource):
         
         if not parameters.get('identifier'):
             tupla = tuple([parameters[chave] for chave in parameters])
-            result = cursor.execute(query_without_identifier, tupla)
+            result = cursor.execute(join_1, tupla)
         else:
             tupla = tuple([parameters[chave] for chave in parameters])
-            result = cursor.execute(query_with_identifier, tupla)
+            result = cursor.execute(join_2, tupla)
 
         result = cursor.fetchall()
                
@@ -42,12 +42,12 @@ class Tests(Resource):
         if result:
             for linha in result:
                 tests_list.append({
-                    'id': linha[0],
-                    'duration': linha[1],
-                    'fhr_value': linha[2],
-                    'date_created':linha[3].strftime('%d/%m/%Y') ,
-                    'identifier': linha[4],
-                    'device_id': linha[5]
+                    #'id': linha[0],
+                    'duration': linha[0],
+                    'fhr_value': linha[1],
+                    'date_created':linha[2].strftime('%d/%m/%Y') ,
+                    'identifier': linha[3],
+                    'device_id': linha[4]
                 })
             
             return {"tests": tests_list}
