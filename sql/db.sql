@@ -99,7 +99,8 @@ WHERE t.IDENTIFIER='80:7D:3A:DA:D9:F5:1' AND DATE_FORMAT(t.date_created, '%Y-%m-
 
 show variables where variable_name like '%dir'
 update db.monitoring set status=1 where id=1
- 
+#alter table db.test drop foreign key test_fk_2;
+#alter table db.test modify device_id varchar(30) null
 
 
 
