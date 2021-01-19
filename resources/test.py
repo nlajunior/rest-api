@@ -1,6 +1,7 @@
 from flask_restful import Resource, reqparse
 from models.test import TestModel
-from models.device import DeviceModel
+
+from models.monitoring import MonitoringModel
 from flask_jwt_extended import jwt_required
 from resources.filters import *
 from config import *
@@ -31,10 +32,10 @@ class Tests(Resource):
         
         if not parameters.get('identifier'):
             tupla = tuple([parameters[chave] for chave in parameters])
-            result = cursor.execute(join_1, tupla)
+            result = cursor.execute(query_without_identifier, tupla)
         else:
             tupla = tuple([parameters[chave] for chave in parameters])
-            result = cursor.execute(join_2, tupla)
+            result = cursor.execute(query_with_identifier, tupla)
 
         result = cursor.fetchall()
                
@@ -42,12 +43,12 @@ class Tests(Resource):
         if result:
             for linha in result:
                 tests_list.append({
-                    #'id': linha[0],
-                    'duration': linha[0],
-                    'fhr_value': linha[1],
-                    'date_created':linha[2].strftime('%d/%m/%Y') ,
-                    'identifier': linha[3],
-                    'device_id': linha[4]
+                    'id': linha[0],
+                    'duration': linha[1],
+                    'fhr_value': linha[2],
+                    'date_created':str(linha[3].strftime('%d/%m/%Y')),
+                    'identifier': linha[4],
+                    'device_id': linha[5]
                 })
             
             return {"tests": tests_list}
@@ -67,22 +68,18 @@ class Test(Resource):
             return test.json()
         return {'message': 'Test not found'}, 404
 
-
     #@jwt_required
     def  post(self):
-        #if TestModel.find_test(id):
-         #   return {"message": "Test id '{}' already exists.".format(id)}, 400
-        
         data = Test.arguments_test.parse_args()
         test = TestModel(**data)
-        
-        if not DeviceModel.find_by_mac(data['device_id']):
-            return {'message': 'Device id invalid.'}, 400
+        if not MonitoringModel.find_by_identifier(data['identifier']):
+            monitoring = MonitoringModel(data['identifier'], True, data['device_id'])
+            monitoring.save()
         try:
             test.save()
         except:
             return {'message': 'An internal error ocurred trying to save test'}, 500
-        
+                
         return test.json(), 200
     
     

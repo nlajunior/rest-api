@@ -16,16 +16,17 @@ while True:
     #print(duration)
 
      
-    url = "http://apibatimentos.senai-ce.org.br/test"
-    payload=" {\n    \"duration\": %d,\n    \"fhr_value\": %d,\n    \"identifier\": \"8C:AA:B5:85:EE:14:1\",\n    \"device_id\": \"8C:AA:B5:85:EE:14\"\n}"%(duration, fhr_value)
+    url = "https://apibatimentos.senai-ce.org.br/test"
+    payload=" {\n    \"duration\": %d,\n    \"fhr_value\": %d,\n    \"identifier\": \"AAAEGAAAAK\",\n    \"device_id\": \"8C:AA:B5:85:EE:14\"\n}"%(duration, fhr_value)
     
     headers = {
         'Content-Type': 'application/json'
     }
+    print(payload)
 
-    response = requests.request("POST", url, headers=headers, data=payload)
+    #response = requests.request("POST", url, headers=headers, data=payload)
 
-    print(response.text)
+    #print(response.text)
     time.sleep(120)
 
 

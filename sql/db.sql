@@ -8,7 +8,7 @@ CREATE TABLE db.role (
   actived boolean DEFAULT 1,
   PRIMARY KEY (id)
  
-);
+)
 
 CREATE TABLE db.log_error (
   id int AUTO_INCREMENT,
@@ -74,6 +74,7 @@ grant select, insert, update, delete, execute on db.* to 'user_api'@'localhost' 
 #('84:0D:8E:17:4D:C8'),
 #('8C:AA:B5:85:EE:14')
 #;
+#insert into db.device(mac) values('8C:AA:B5:85:XX')
 #insert into db.monitoring (identifier, device_id) values('8C:AA:B5:85:EE:14:1','8C:AA:B5:85:EE:14');
 #insert into db.test (duration, fhr_value, date_created, identifier, device_id) values(5, 120, '2020-12-15', '80:7D:3A:DA:D9:F5:1', '80:7D:3A:DA:D9:F5');
 #insert into db.test (duration, fhr_value, date_created, identifier, device_id) values(10, 126, '2020-12-15', '80:7D:3A:DA:D9:F5:1', '80:7D:3A:DA:D9:F5');
@@ -86,7 +87,7 @@ grant select, insert, update, delete, execute on db.* to 'user_api'@'localhost' 
 #select * from db.monitoring;
 #select * from db.test;
 #select * from db.log_error;
-#SELECT * FROM db.test where identifier='' and DATE_FORMAT(date_created, '%Y-%m-%d')='2020-12-15' ORDER BY DATE_FORMAT(date_created, '%Y%m%d') DESC LIMIT 14;
+#SELECT * FROM db.test where DATE_FORMAT(date_created, '%Y-%m-%d')='2021-01-18' ORDER BY id DESC LIMIT 14;
 
 #explain format=JSON SELECT identifier from db.monitoring order by identifier desc limit 1;
 #explain format=json select(id), identifier from db.monitoring order by id desc limit 1;
@@ -94,18 +95,18 @@ grant select, insert, update, delete, execute on db.* to 'user_api'@'localhost' 
 #explain format=json SELECT t.duration, t.fhr_value, t.identifier FROM db.test as t inner join db.monitoring as m on t.identifier=m.identifier
 #WHERE t.IDENTIFIER='80:7D:3A:DA:D9:F5:1' AND DATE_FORMAT(t.date_created, '%Y-%m-%d')='2020-12-15' AND t.duration>=0 AND t.duration<=200 AND m.status=1 \G
 
-explain format=json SELECT t.duration, t.fhr_value, t.identifier FROM db.test as t inner join db.monitoring as m on t.identifier=m.identifier
-WHERE t.IDENTIFIER='80:7D:3A:DA:D9:F5:1' AND DATE_FORMAT(t.date_created, '%Y-%m-%d')='2021-01-11' AND t.duration>=0 AND t.duration<=200 AND m.status=1
+#explain format=json SELECT t.duration, t.fhr_value, t.identifier FROM db.test as t inner join db.monitoring as m on t.identifier=m.identifier
+#WHERE t.IDENTIFIER='80:7D:3A:DA:D9:F5:1' AND DATE_FORMAT(t.date_created, '%Y-%m-%d')='2021-01-11' AND t.duration>=0 AND t.duration<=200 AND m.status=1
 
-show variables where variable_name like '%dir'
-update db.monitoring set status=1 where id=1
+#show variables where variable_name like '%dir'
+#update db.monitoring set status=1 where id=1
+ 
 #alter table db.test drop foreign key test_fk_2;
 #alter table db.test modify device_id varchar(30) null
 
 
 
-
-
+select duration, fhr_value, date_created, identifier, device_id from db.test ORDER BY duration LIMIT 4 OFFSET 2
 
 
 

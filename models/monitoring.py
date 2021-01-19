@@ -35,8 +35,10 @@ class MonitoringModel(db.Model):
         return None
     
     @classmethod
-    def find_by_id(cls, id):
-        monitoring =  cls.query.filter_by(id=id).first()
+    def find_by_id(cls, identifier):
+        
+        monitoring =  cls.query.filter_by(identifier=identifier).first()
+       
         if monitoring:
             return monitoring
         return None
@@ -52,8 +54,8 @@ class MonitoringModel(db.Model):
         db.session.add(self)
         db.session.commit()
 
-    def update(self, status=0):
-        print(status)
+    def update(self, status=False):
+        
         self.status = status
         
     def delete(self):
