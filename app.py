@@ -8,6 +8,7 @@ from resources.test import Test
 from resources.test import TestsSession
 from resources.device import Device, Devices
 from resources.identifier import Identifier
+from resources.log import Log, Logs
 
 from resources.user import User, UserRegister, UserLogin, UserLogout, UserConfirm
 from flask_jwt_extended import JWTManager
@@ -55,6 +56,8 @@ api.add_resource(Device, '/device')
 
 api.add_resource(UserConfirm, '/confirmacao/<int:id>')
 api.add_resource(Identifier, '/identifier')
+api.add_resource(Log, '/log')
+api.add_resource(Logs, '/logs')
 
 if __name__=='__main__':
     from sql_alchemy import db
