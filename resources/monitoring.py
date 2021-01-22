@@ -4,32 +4,26 @@ from models.monitoring import MonitoringModel
 class  Monitoring(Resource):
 
     arguments_monitoring = reqparse.RequestParser()
-    
     arguments_monitoring.add_argument('identifier', type=str, required=True, help="This field 'identifier' cannot be left.")
     arguments_monitoring.add_argument('status', type=bool)
     arguments_monitoring.add_argument('device_id', type=str)
     
-    def get(self, identifier):
-
-        monitoring= MonitoringModel.find_by_identifier(identifier)
-
-        if monitoring:
-            return monitoring.json()
-        return {'message': 'Monitoring not found'}, 404
-           
+    def get(self):
+        try:
+            return {'list': [monitoring.json() for monitoring in MonitoringModel.find__running(status=True)]}
+        except:
+            return {"message": "Not found."}, 400
+         
     def post(self):
         data = Monitoring.arguments_monitoring.parse_args()
         monitoring = MonitoringModel(**data)
        
-
         if  monitoring.find_by_identifier(data['identifier']):
             return {"message": "The monitoring already exists."}, 400
-
         try:
             monitoring.save()
         except:
             return {"message": 'An internal error ocurred trying to create a new monitoring.'}, 500
-        
         return monitoring.json()
 
     def put(self):

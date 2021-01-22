@@ -1,4 +1,5 @@
 from sql_alchemy import db
+from sqlalchemy import desc, and_
 from datetime import date
 
 
@@ -21,7 +22,7 @@ class MonitoringModel(db.Model):
     def json(self):
         return {
             
-            'monitor_id': self.identifier,
+            'identifier': self.identifier,
             'status':self.status,
             #'tests':[test.json() for test in self.tests]
         }
@@ -36,7 +37,6 @@ class MonitoringModel(db.Model):
     
     @classmethod
     def find_by_id(cls, identifier):
-        
         monitoring =  cls.query.filter_by(identifier=identifier).first()
        
         if monitoring:
@@ -45,10 +45,9 @@ class MonitoringModel(db.Model):
     
     @classmethod
     def find__running(cls, status=True):
-        monitoring = cls.query.filter_by(status=status).all()
-        if monitoring:
-            return monitoring
-        return None
+        monitoring = cls.query.order_by(desc(cls.id)).filter(and_(cls.status==1,cls.date_created==str(date.today()))).limit(250).all()
+        return monitoring
+        
     
     def save(self):
         db.session.add(self)

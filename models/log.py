@@ -1,4 +1,6 @@
 from sql_alchemy import db
+from sqlalchemy import desc, and_
+from datetime import date
 
 class LogModel(db.Model):
     __tablename__ = 'log_error'
@@ -21,13 +23,15 @@ class LogModel(db.Model):
             'date_created': (self.date_created.strftime('%d/%m/%Y')),
             'level_error':self.level_error,
             'message': self.message           
-        } 
-    #db.session.query(Medicao).order_by(desc(Medicao.id)).filter(Medicao.date_created==str(date.today())).limit(limit).all()
+        }
+         
     @classmethod
     def get_log(cls, device_id):
-        log =  cls.query.filter_by(device_id=device_id).all()
-        log2 = cls.query.order_by(cls.level_error).limit(2).all()
-        return log2
+        #log =  cls.query.filter_by(device_id=device_id).all()
+        #log2 = cls.query.order_by(desc(cls.level_error)).limit(2).all()
+        log  = cls.query.order_by(desc(cls.date_created)).filter(and_(cls.device_id==device_id,cls.date_created==str(date.today()))).limit(50).all()
+        
+        return log
 
     def save_log(self):
         db.session.add(self)
