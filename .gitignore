@@ -4,5 +4,5 @@ credentials.json
 ./docs
 banco
 aws-nlajunior.pem
-run.py
+
 passwords.txt
