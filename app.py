@@ -39,7 +39,6 @@ def verify_token_blacklist(token):
 def token_invalid():
     return jsonify({'message':'You have been logged out.'}), 401
 
-
 api.add_resource(Monitoring, '/monitoring')
 
 api.add_resource(Tests, '/tests')
@@ -56,6 +55,7 @@ api.add_resource(Device, '/device')
 
 api.add_resource(UserConfirm, '/confirmacao/<int:id>')
 api.add_resource(Identifier, '/identifier')
+
 api.add_resource(Log, '/log')
 api.add_resource(Logs, '/logs')
 

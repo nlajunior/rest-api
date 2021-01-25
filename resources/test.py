@@ -72,6 +72,7 @@ class Test(Resource):
     def  post(self):
         data = Test.arguments_test.parse_args()
         test = TestModel(**data)
+    
         if not MonitoringModel.find_by_identifier(data['identifier']):
             monitoring = MonitoringModel(data['identifier'], True, data['device_id'])
             monitoring.save()
