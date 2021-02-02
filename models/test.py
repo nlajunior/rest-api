@@ -31,9 +31,9 @@ class TestModel(db.Model):
         return {
             'duration': self.duration,
             'fhr_value': self.fhr_value,
-            'date_created': (self.date_created.strftime('%d/%m/%Y')),
-            'identifier': self.identifier,            
-            'device_id': self.device_id
+            #'date_created': (self.date_created.strftime('%d/%m/%Y')),
+            'identifier': self.identifier            
+            #'device_id': self.device_id
         }
 
     @classmethod

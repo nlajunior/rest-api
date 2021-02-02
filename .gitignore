@@ -4,7 +4,12 @@ credentials.json
 ./docs
 banco.db
 aws-nlajunior.pem
+<<<<<<< HEAD
+
+passwords.txt
+=======
 run.py
 passwords.txt
 invalid_id.json
 ./backup
+>>>>>>> 43b184abb4a2f3b24d420af10d24065a7a185174
