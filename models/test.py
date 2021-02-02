@@ -1,6 +1,6 @@
 from sql_alchemy import db
 from datetime import date
-
+from sqlalchemy import asc, desc, and_
 
 class TestModel(db.Model):
     __tablename__ = 'test'
@@ -29,7 +29,6 @@ class TestModel(db.Model):
     
     def json(self):
         return {
-            'id': self.id,
             'duration': self.duration,
             'fhr_value': self.fhr_value,
             'date_created': (self.date_created.strftime('%d/%m/%Y')),
@@ -58,6 +57,11 @@ class TestModel(db.Model):
             return test
         return None
     
+    @classmethod
+    def find_by_list(cls, list_id, duration, limit=None):
+        tests =  cls.query.order_by(asc(cls.identifier), cls.duration).filter(and_(cls.identifier.in_(list_id), cls.duration>duration, cls.date_created==str(date.today()))).limit(limit).all()
+        return tests
+        
     def save(self):
         db.session.add(self)
         db.session.commit()

@@ -1,4 +1,4 @@
-from flask_restful import Resource, reqparse
+from flask_restful import Resource, reqparse, request
 from models.test import TestModel
 
 from models.monitoring import MonitoringModel
@@ -8,6 +8,8 @@ from config import *
 
 import mysql.connector
 from datetime import date
+import json
+
 
 path_params = reqparse.RequestParser()
 path_params.add_argument('identifier', type=str)
@@ -21,7 +23,9 @@ class Tests(Resource):
     
     #@jwt_required
     def get(self):
+       
         data = path_params.parse_args()
+        
         data_valid = {key:data[key] for key in data if data[key] is not None}
         parameters = normalize_path_params(**data_valid)
         
@@ -43,12 +47,11 @@ class Tests(Resource):
         if result:
             for linha in result:
                 tests_list.append({
-                    'id': linha[0],
-                    'duration': linha[1],
-                    'fhr_value': linha[2],
-                    'date_created':str(linha[3].strftime('%d/%m/%Y')),
-                    'identifier': linha[4],
-                    'device_id': linha[5]
+                    'duration': linha[0],
+                    'fhr_value': linha[1],
+                    'date_created':str(linha[2].strftime('%d/%m/%Y')),
+                    'identifier': linha[3],
+                    'device_id': linha[4]
                 })
             
             return {"tests": tests_list}
@@ -92,3 +95,23 @@ class TestsSession(Resource):
             return {'tests':[test.json() for test in TestModel.find_by_identifier(identifier)]} 
         except:
             return {'message': 'Tests not found'}, 404
+
+class TestList(Resource):
+    arguments_test = reqparse.RequestParser()
+    arguments_test.add_argument('list_id', required=True, help="Every test to be linked with a identifier.")
+    arguments_test.add_argument('duration_min')
+    arguments_test.add_argument('limit')
+
+    def get(self):
+        data = TestList.arguments_test.parse_args()
+        data2 = (data['list_id'].split(","))
+        duration= data['duration_min']
+        limit = data['limit']
+        
+        data_valid=[]
+        for i in data2:
+            data_valid.append(str(i).strip())
+        try:
+            return  {'tests': [test.json() for test in TestModel.find_by_list(data_valid, duration, limit)]} 
+        except:
+            return {'message:' 'Tests not found'}

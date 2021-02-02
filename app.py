@@ -6,6 +6,7 @@ from resources.monitoring import Monitoring
 from resources.test import Tests
 from resources.test import Test
 from resources.test import TestsSession
+from resources.test import TestList
 from resources.device import Device, Devices
 from resources.identifier import Identifier
 from resources.log import Log, Logs
@@ -44,6 +45,7 @@ api.add_resource(Monitoring, '/monitoring')
 api.add_resource(Tests, '/tests')
 api.add_resource(Test, '/test')
 api.add_resource(TestsSession, '/tests/<string:identifier>')
+api.add_resource(TestList, '/tests/list')
 
 api.add_resource(User, '/users/<int:id>')
 api.add_resource(UserRegister, '/new')
@@ -63,4 +65,3 @@ if __name__=='__main__':
     from sql_alchemy import db
     db.init_app(app)
     app.run(debug=True)
-
