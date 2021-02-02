@@ -58,3 +58,6 @@ explain format=json SELECT t.duration, t.fhr_value, t.identifier FROM db.test as
 WHERE t.IDENTIFIER='80:7D:3A:DA:D9:F5:1' AND DATE_FORMAT(t.date_created, '%Y-%m-%d')='2020-12-15' AND t.duration>=0 AND t.duration<=200 AND m.status=1 \G
 
 scp -i "aws-nlajunior.pem" ubuntu@54.172.147.146:/home/ubuntu/backup/db20210112.sql ./backup/
+
+MQTT
+pip install paho-mqtt

@@ -14,9 +14,12 @@ class TestModel(db.Model):
     #device = bd.relationship('DeviceModel')
 
     def __init__(self, duration, fhr_value, date_created, identifier,  device_id):
-        
-        self.duration = duration
-        self.fhr_value = fhr_value
+             
+        self.duration=duration
+       
+        if (fhr_value).__eq__('0') or (fhr_value).__eq__('0.0') : self.fhr_value=-1
+        else: 
+            self.fhr_value = fhr_value
         if date_created==None:
             self.date_created = date.today()
         else:
