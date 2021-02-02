@@ -1,6 +1,7 @@
 from flask_restful import Resource, reqparse
 from models.test import TestModel
-from models.device import DeviceModel
+
+from models.monitoring import MonitoringModel
 from flask_jwt_extended import jwt_required
 from resources.filters import *
 from config import *
@@ -45,7 +46,7 @@ class Tests(Resource):
                     'id': linha[0],
                     'duration': linha[1],
                     'fhr_value': linha[2],
-                    'date_created':linha[3].strftime('%d/%m/%Y') ,
+                    'date_created':str(linha[3].strftime('%d/%m/%Y')),
                     'identifier': linha[4],
                     'device_id': linha[5]
                 })
@@ -67,22 +68,18 @@ class Test(Resource):
             return test.json()
         return {'message': 'Test not found'}, 404
 
-
     #@jwt_required
     def  post(self):
-        #if TestModel.find_test(id):
-         #   return {"message": "Test id '{}' already exists.".format(id)}, 400
-        
         data = Test.arguments_test.parse_args()
         test = TestModel(**data)
-        
-        if not DeviceModel.find_by_mac(data['device_id']):
-            return {'message': 'Device id invalid.'}, 400
+        if not MonitoringModel.find_by_identifier(data['identifier']):
+            monitoring = MonitoringModel(data['identifier'], True, data['device_id'])
+            monitoring.save()
         try:
             test.save()
         except:
             return {'message': 'An internal error ocurred trying to save test'}, 500
-        
+                
         return test.json(), 200
     
     
@@ -94,3 +91,21 @@ class TestsSession(Resource):
             return {'tests':[test.json() for test in TestModel.find_by_identifier(identifier)]} 
         except:
             return {'message': 'Tests not found'}, 404
+
+class TestList(Resource):
+    arguments_test = reqparse.RequestParser()
+    arguments_test.add_argument('lista_id')
+
+    def get(self):
+        data = TestList.arguments_test.parse_args()
+        data2 = (data['lista_id'].split(","))
+        
+        data_valid=[]
+        for i in data2:
+            data_valid.append(str(i).strip())
+        
+        
+        try:
+            return  {'tests': [test.json() for test in TestModel.find_by_list(data_valid)]} 
+        except:
+            return {'message:' 'Tests not found'}

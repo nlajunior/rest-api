@@ -1,4 +1,5 @@
 from sql_alchemy import db
+from sqlalchemy import desc, and_
 from datetime import date
 
 
@@ -7,7 +8,7 @@ class MonitoringModel(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     identifier = db.Column(db.String(60), unique=True)
-    date_created = db.Column(db.DateTime(6), nullable=True)
+    date_created=db.Column(db.DateTime(6),default=db.func.current_timestamp(),nullable=False)
     status = db.Column(db.Boolean)
     device_id = db.Column(db.String(30))
     tests = db.relationship('TestModel') 
@@ -21,9 +22,9 @@ class MonitoringModel(db.Model):
     def json(self):
         return {
             
-            'monitor_id': self.identifier,
+            'identifier': self.identifier,
             'status':self.status,
-            'tests':[test.json() for test in self.tests]
+            #'tests':[test.json() for test in self.tests]
         }
     
     @classmethod
@@ -35,25 +36,25 @@ class MonitoringModel(db.Model):
         return None
     
     @classmethod
-    def find_by_id(cls, id):
-        monitoring =  cls.query.filter_by(id=id).first()
+    def find_by_id(cls, identifier):
+        monitoring =  cls.query.filter_by(identifier=identifier).first()
+       
         if monitoring:
             return monitoring
         return None
     
     @classmethod
     def find__running(cls, status=True):
-        monitoring = cls.query.filter_by(status=status).all()
-        if monitoring:
-            return monitoring
-        return None
+        monitoring = cls.query.order_by(desc(cls.id)).filter(and_(cls.status==1,cls.date_created==str(date.today()))).limit(250).all()
+        return monitoring
+        
     
     def save(self):
         db.session.add(self)
         db.session.commit()
 
-    def update(self, status=0):
-        print(status)
+    def update(self, status=False):
+        
         self.status = status
         
     def delete(self):
