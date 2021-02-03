@@ -1,5 +1,4 @@
 import json
-from models.generator import Generator
 
 class Identifier:
 

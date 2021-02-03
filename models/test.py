@@ -58,8 +58,11 @@ class TestModel(db.Model):
         return None
     
     @classmethod
-    def find_by_list(cls, list_id, duration, limit=None):
-        tests =  cls.query.order_by(asc(cls.identifier), cls.duration).filter(and_(cls.identifier.in_(list_id), cls.duration>duration, cls.date_created==str(date.today()))).limit(limit).all()
+    def find_by_list(cls, list_id, limit=None):
+        if not limit==None:
+            tests =  cls.query.order_by(asc(cls.identifier), cls.duration).filter(and_(cls.identifier.in_(list_id), cls.date_created==str(date.today()))).limit(limit).all()
+        else:
+            tests =  cls.query.order_by(asc(cls.identifier), cls.duration).filter(and_(cls.identifier.in_(list_id), cls.date_created==str(date.today()))).all()
         return tests
         
     def save(self):

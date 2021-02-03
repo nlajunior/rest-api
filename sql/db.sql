@@ -108,6 +108,20 @@ grant select, insert, update, delete, execute on db.* to 'user_api'@'localhost' 
 
 select duration, fhr_value, date_created, identifier, device_id from db.test ORDER BY duration LIMIT 4 OFFSET 2
 
+SELECT duration, fhr_value, identifier FROM db.test 
+WHERE identifier='AAAEGAAAAK' 
+AND DATE_FORMAT(date_created, '%Y-%m-%d')='2021-01-27' 
+AND duration>=5 AND duration<=100 
+ORDER BY duration asc LIMIT 50 
+
+SELECT duration, fhr_value, identifier FROM db.test
+WHERE DATE_FORMAT(date_created, '%Y-%m-%d')='2021-01-27' AND duration>=5 AND duration<=100
+ORDER BY identifier, duration asc LIMIT 50
+
+SELECT duration, fhr_value, identifier FROM db.test
+WHERE identifier in('AAACDAFAAK','AAACDCFAAM') AND DATE_FORMAT(date_created, '%Y-%m-%d')='2021-01-27' AND duration>=5 AND duration<=50
+ORDER BY identifier, duration asc LIMIT 50
+
 
 
 

@@ -10,7 +10,6 @@ import mysql.connector
 from datetime import date
 import json
 
-
 path_params = reqparse.RequestParser()
 path_params.add_argument('identifier', type=str)
 path_params.add_argument('duration_min', type=int)
@@ -49,9 +48,9 @@ class Tests(Resource):
                 tests_list.append({
                     'duration': linha[0],
                     'fhr_value': linha[1],
-                    'date_created':str(linha[2].strftime('%d/%m/%Y')),
-                    'identifier': linha[3],
-                    'device_id': linha[4]
+                    #'date_created':str(linha[2].strftime('%d/%m/%Y')),
+                    'identifier': linha[2]
+                    
                 })
             
             return {"tests": tests_list}
@@ -105,13 +104,12 @@ class TestList(Resource):
     def get(self):
         data = TestList.arguments_test.parse_args()
         data2 = (data['list_id'].split(","))
-        duration= data['duration_min']
         limit = data['limit']
-        
+        print(limit)
         data_valid=[]
         for i in data2:
             data_valid.append(str(i).strip())
         try:
-            return  {'tests': [test.json() for test in TestModel.find_by_list(data_valid, duration, limit)]} 
+            return  {'tests': [test.json() for test in TestModel.find_by_list(data_valid, limit=limit)]} 
         except:
             return {'message:' 'Tests not found'}
