@@ -105,11 +105,13 @@ class TestList(Resource):
         data = TestList.arguments_test.parse_args()
         data2 = (data['list_id'].split(","))
         limit = data['limit']
-        print(limit)
+        
         data_valid=[]
         for i in data2:
             data_valid.append(str(i).strip())
+        print(len(data_valid))
         try:
             return  {'tests': [test.json() for test in TestModel.find_by_list(data_valid, limit=limit)]} 
+            
         except:
             return {'message:' 'Tests not found'}

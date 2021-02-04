@@ -63,6 +63,7 @@ class TestModel(db.Model):
             tests =  cls.query.order_by(asc(cls.identifier), cls.duration).filter(and_(cls.identifier.in_(list_id), cls.date_created==str(date.today()))).limit(limit).all()
         else:
             tests =  cls.query.order_by(asc(cls.identifier), cls.duration).filter(and_(cls.identifier.in_(list_id), cls.date_created==str(date.today()))).all()
+        print(type(tests))
         return tests
         
     def save(self):
