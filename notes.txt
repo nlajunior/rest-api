@@ -61,3 +61,15 @@ scp -i "aws-nlajunior.pem" ubuntu@54.172.147.146:/home/ubuntu/backup/db20210112.
 
 MQTT
 pip install paho-mqtt
+
+[
+  {employeeId:1,Salary:10000},
+  {employeeId:2,Salary:15000}
+]
+and use the function bulk_update_mappings
+
+session.bulk_update_mappings(
+                Salary,
+                [{employeeId:1,Salary:10000},
+                 {employeeId:2,Salary:15000}]
+            )

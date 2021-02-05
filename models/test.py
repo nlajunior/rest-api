@@ -11,21 +11,21 @@ class TestModel(db.Model):
     date_created=db.Column(db.DateTime(6),default=db.func.current_timestamp(),nullable=False)
     identifier = db.Column(db.String(60), db.ForeignKey('monitoring.identifier'))
     device_id = db.Column(db.String(30), db.ForeignKey('device.mac'))
+    status = db.Column(db.Boolean, default=0)
     #device = bd.relationship('DeviceModel')
 
-    def __init__(self, duration, fhr_value, date_created, identifier,  device_id):
-             
+    def __init__(self, duration, fhr_value, date_created, identifier,  device_id, status):
+        
         self.duration=duration
-       
-        if (fhr_value).__eq__('0') or (fhr_value).__eq__('0.0') : self.fhr_value=-1
-        else: 
-            self.fhr_value = fhr_value
+        self.fhr_value = fhr_value
         if date_created==None:
             self.date_created = date.today()
         else:
             self.date_created = date_created
         self.identifier = identifier
         self.device_id = device_id
+        self.status=status
+    
     
     def json(self):
         return {
@@ -33,15 +33,17 @@ class TestModel(db.Model):
             'fhr_value': self.fhr_value,
             #'date_created': (self.date_created.strftime('%d/%m/%Y')),
             'identifier': self.identifier            
-            #'device_id': self.device_id
         }
 
-    @classmethod
-    def find_by_id(cls, id):
-        test = cls.query.filter_by(id=id).first()
-        if test:
-            return test
-        return None
+    #@classmethod
+    #def find_by_id(cls, id):
+    #def find_by_id(self):
+        #if not id==None:
+         #   test = cls.query.filter_by(id=id).first()
+        #self.update()
+        
+        
+        
     
     @classmethod
     def find_by_date(cls, date_created):
@@ -63,19 +65,16 @@ class TestModel(db.Model):
             tests =  cls.query.order_by(asc(cls.identifier), cls.duration).filter(and_(cls.identifier.in_(list_id), cls.date_created==str(date.today()))).limit(limit).all()
         else:
             tests =  cls.query.order_by(asc(cls.identifier), cls.duration).filter(and_(cls.identifier.in_(list_id), cls.date_created==str(date.today()))).all()
-        print(type(tests))
+        
         return tests
         
     def save(self):
         db.session.add(self)
         db.session.commit()
-
-    def update(self, duration, fhr_value, date_created, identifier, device_id):
-        self.duration = duration
-        self.fhr_valeu = fhr_value
-        self.date_created =  date_created
-        self.identifier = identifier
-        self.device_id = device_id
+        
+    def update(self):
+        self.status = True
+            
         
     def delete(self):
         db.session.delete(self)

@@ -43,16 +43,23 @@ class Tests(Resource):
         result = cursor.fetchall()
                
         tests_list = []
+       
         if result:
             for linha in result:
                 tests_list.append({
+                    #'id': linha[0],
                     'duration': linha[0],
                     'fhr_value': linha[1],
-                    #'date_created':str(linha[2].strftime('%d/%m/%Y')),
-                    'identifier': linha[2]
-                    
+                    'date_created':str(linha[2].strftime('%d/%m/%Y')),
+                    'identifier': linha[3],
+                    'device_id': linha[4]                    
                 })
-            
+                test = TestModel(linha[0], linha[1], linha[2], linha[3], linha[4], True)
+                test.update()
+                test.save()
+               
+              
+
             return {"tests": tests_list}
         
  
@@ -109,7 +116,6 @@ class TestList(Resource):
         data_valid=[]
         for i in data2:
             data_valid.append(str(i).strip())
-        print(len(data_valid))
         try:
             return  {'tests': [test.json() for test in TestModel.find_by_list(data_valid, limit=limit)]} 
             
