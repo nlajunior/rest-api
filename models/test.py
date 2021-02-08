@@ -31,7 +31,6 @@ class TestModel(db.Model):
         return {
             'duration': self.duration,
             'fhr_value': self.fhr_value,
-            #'date_created': (self.date_created.strftime('%d/%m/%Y')),
             'identifier': self.identifier            
         }
 
@@ -39,15 +38,14 @@ class TestModel(db.Model):
     def update_by_id(cls, id_list):
         if not len(id_list)==0:
             parametros = str(id_list)
-            parametros = parametros.replace("[", " ", 2)
-            parametros= parametros.replace("]", " ", 2)
-        
+            parametros = (parametros.replace("[", " ", 2)).replace("]", " ", 2)
+                    
             update_sql=f'update db.test set status=1 where id in ({parametros})'
             try:
                 db.session.execute(update_sql)
                 db.session.commit()
                 return True
-                
+
             except Exception as e:
                 db.session.rollback()
                 return False

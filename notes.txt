@@ -73,3 +73,8 @@ session.bulk_update_mappings(
                 [{employeeId:1,Salary:10000},
                  {employeeId:2,Salary:15000}]
             )
+
+
+            #'date_created': (self.date_created.strftime('%d/%m/%Y')),
+
+            #'date_created':str(linha[3].strftime('%d/%m/%Y')),

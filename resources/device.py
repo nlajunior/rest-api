@@ -44,7 +44,7 @@ class Device(Resource):
             return device_find.json(), 200
 
         device = DeviceModel(**data)
-        print(data)
+       
         try:
             device.save()
         except:

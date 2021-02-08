@@ -51,7 +51,6 @@ class Tests(Resource):
                     
                     'duration': linha[1],
                     'fhr_value': linha[2],
-                    #'date_created':str(linha[3].strftime('%d/%m/%Y')),
                     'identifier': linha[4]
                                       
                 })
