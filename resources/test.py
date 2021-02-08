@@ -43,25 +43,23 @@ class Tests(Resource):
         result = cursor.fetchall()
                
         tests_list = []
+        id_list = []
        
         if result:
             for linha in result:
                 tests_list.append({
-                    #'id': linha[0],
-                    'duration': linha[0],
-                    'fhr_value': linha[1],
-                    'date_created':str(linha[2].strftime('%d/%m/%Y')),
-                    'identifier': linha[3],
-                    'device_id': linha[4]                    
+                    
+                    'duration': linha[1],
+                    'fhr_value': linha[2],
+                    #'date_created':str(linha[3].strftime('%d/%m/%Y')),
+                    'identifier': linha[4]
+                                      
                 })
-                test = TestModel(linha[0], linha[1], linha[2], linha[3], linha[4], True)
-                test.update()
-                test.save()
-               
-              
+                id_list.append(linha[0]) 
+                        
+            TestModel.update_by_id(id_list)
 
             return {"tests": tests_list}
-        
  
 class Test(Resource):
     arguments_test = reqparse.RequestParser()
@@ -70,13 +68,7 @@ class Test(Resource):
     arguments_test.add_argument('identifier', type=str, required=True, help="This field 'identifier' cannot be left.")
     arguments_test.add_argument('date_created', type=str)
     arguments_test.add_argument('device_id', type=str, required=True, help="Every test to be linked with a device.")
-       
-    def get(self, id):
-        test = TestModel.find_by_id(id)
-        if test:
-            return test.json()
-        return {'message': 'Test not found'}, 404
-
+        
     #@jwt_required
     def  post(self):
         data = Test.arguments_test.parse_args()

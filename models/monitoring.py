@@ -48,13 +48,11 @@ class MonitoringModel(db.Model):
         monitoring = cls.query.order_by(desc(cls.id)).filter(and_(cls.status==1,cls.date_created==str(date.today()))).limit(250).all()
         return monitoring
         
-    
     def save(self):
         db.session.add(self)
         db.session.commit()
 
     def update(self, status=False):
-        
         self.status = status
         
     def delete(self):
