@@ -48,11 +48,9 @@ class Tests(Resource):
         if result:
             for linha in result:
                 tests_list.append({
-                    
                     'duration': linha[1],
                     'fhr_value': linha[2],
-                    'identifier': linha[4]
-                                      
+                    'identifier': linha[4]                                     
                 })
                 id_list.append(linha[0]) 
                         
@@ -108,7 +106,9 @@ class TestList(Resource):
         for i in data2:
             data_valid.append(str(i).strip())
         try:
-            return  {'tests': [test.json() for test in TestModel.find_by_list(data_valid, limit=limit)]} 
+            {'tests': [test.json() for test in TestModel.find_by_list(data_valid, limit=limit)]} 
             
+            for test in TestModel.find_by_list(data_valid, limit=limit):
+                {'tests': test.json()}
         except:
             return {'message:' 'Tests not found'}

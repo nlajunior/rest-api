@@ -25,8 +25,7 @@ class TestModel(db.Model):
         self.identifier = identifier
         self.device_id = device_id
         self.status=0
-    
-    
+        
     def json(self):
         return {
             'duration': self.duration,
@@ -49,8 +48,7 @@ class TestModel(db.Model):
             except Exception as e:
                 db.session.rollback()
                 return False
-       
-           
+               
     @classmethod
     def find_by_date(cls, date_created):
         test = cls.query.filter_by(date_created=date_created).all()
@@ -68,9 +66,10 @@ class TestModel(db.Model):
     @classmethod
     def find_by_list(cls, list_id, limit=None):
         if not limit==None:
-            tests =  cls.query.order_by(asc(cls.identifier), cls.duration).filter(and_(cls.identifier.in_(list_id), cls.date_created==str(date.today()))).limit(limit).all()
+            tests =  cls.query.order_by(asc(cls.identifier), cls.duration).filter(and_(cls.identifier.in_(list_id), cls.status==0, cls.date_created==str(date.today()))).limit(limit).all()
         else:
-            tests =  cls.query.order_by(asc(cls.identifier), cls.duration).filter(and_(cls.identifier.in_(list_id), cls.date_created==str(date.today()))).all()
+            tests =  cls.query.order_by(asc(cls.identifier), cls.duration).filter(and_(cls.identifier.in_(list_id), cls.status==0, cls.date_created==str(date.today()))).all()
+                    
         return tests
         
     def save(self):
