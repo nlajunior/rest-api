@@ -17,7 +17,7 @@ while True:
 
      
     url = "http://apibatimentos.senai-ce.org.br/test"
-    payload=" {\n    \"duration\": %d,\n    \"fhr_value\": %d,\n    \"identifier\": \"AAAGZAAAKZ\",\n    \"device_id\": \"8C:AA:B5:85:EE:14\"\n}"%(duration, fhr_value)
+    payload=" {\n    \"duration\": %d,\n    \"fhr_value\": %d,\n    \"identifier\": \"AAAABCDCGO\",\n    \"device_id\": \"8C:AA:B5:85:EE:14\"\n}"%(duration, fhr_value)
     
     headers = {
         'Content-Type': 'application/json'

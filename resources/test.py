@@ -106,9 +106,18 @@ class TestList(Resource):
         for i in data2:
             data_valid.append(str(i).strip())
         try:
-            {'tests': [test.json() for test in TestModel.find_by_list(data_valid, limit=limit)]} 
-            
+            #{'tests': [test.json() for test in TestModel.find_by_list(data_valid, limit=limit)]} 
+            list_id = []
+            tests = []
+
             for test in TestModel.find_by_list(data_valid, limit=limit):
-                {'tests': test.json()}
+                tests.append(test.json())
+                list_id.append(test.id)
+            
+            print(list_id)
+            TestModel.update_by_id(list_id)
+            
+            return tests
+
         except:
             return {'message:' 'Tests not found'}

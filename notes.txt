@@ -78,3 +78,5 @@ session.bulk_update_mappings(
             #'date_created': (self.date_created.strftime('%d/%m/%Y')),
 
             #'date_created':str(linha[3].strftime('%d/%m/%Y')),
+
+            
